@@ -1,71 +1,80 @@
-import React, { useState } from 'react';
-import { MenuProps } from 'antd';
-import { Layout, Menu, theme} from 'antd';
-import { Link } from 'react-router-dom';
-import { UserOutlined } from '@ant-design/icons';
-import Navbar from '../Navbar'; 
+import { Layout, Menu, MenuProps, theme, Typography, Space, Image } from 'antd';
+import MenuLateral from '../MenuLateral';
+import { UserOutlined, MonitorOutlined, NotificationOutlined, AntDesignOutlined } from '@ant-design/icons';
+import ButtonMenu from "../ButtonMenu";
 import './style.css'
 
-const { Content, Sider, Footer } = Layout;
+const { Title } = Typography;
+const { Content, Header, Footer } = Layout;
 
-type MenuItem = Required<MenuProps>['items'][number];
+const items: MenuProps['items'] = [
+  {
+    label: 'nome',
+    key: 'SubMenu',
+    icon: <UserOutlined/>,
+    children: [
+      {
+        type: 'group',
+        label: 'Item 1',
+        children: [
+          {
+            label: 'Option 1',
+            key: 'setting:1',
+          },
+          {
+            label: 'Option 2',
+            key: 'setting:2',
+          },
+        ],
+      },
+    ],
+  },
+];
 
-        function getItem(
-            label: React.ReactNode,
-            key: React.Key,
-            icon?: React.ReactNode,
-            children?: MenuItem[]
-        ): MenuItem {
-            return {
-            key,
-            icon,
-            children,
-            label
-            } as MenuItem;
-        }
+const MainLayout = ({ children}: { children: JSX.Element }) => {
 
-        const items: MenuItem[] = [
-            getItem(<Link to={'/cliente/inserir'}>Cliente</Link>, '1', <UserOutlined />),
-        ];  
-
-const MainLayout = ({ children }: { children: JSX.Element }) => {
-
-    const [collapsed, setCollapsed] = useState(false);
-
+    const onClick: MenuProps['onClick'] = (e) => {
+      console.log('click ', e);
+    }
     const {
       token: { colorBgContainer }
     } = theme.useToken();
 
   return (
     <Layout style={{ minHeight: '100vh'}}>
-        <Sider  className='menu-lateral' 
-        collapsible collapsed={collapsed} onCollapse={(value) => setCollapsed(value)} theme="dark">   
-          <div
-            style={{
-              height: 32,
-              margin: 16,
-              background: 'rgba(255, 255, 255, 0.2)'
-            }}
-          />
-            <Menu theme="dark" mode="inline" items={items}/>
-        </Sider>
-        <Layout className="site-layout"> 
-          <Navbar />        
-          <Content style={{ margin: '0 16px', padding: '16px 0' }}>
-            <div
-              style={{
-                padding: 24,
-                height: '100%',
-                background: colorBgContainer,
-                display: 'grid',
-                justifyContent: 'center'
-              }}>
-              {children}
-            </div>
-          </Content>
-          <Footer style={{ textAlign: 'center' }}>
-            GestorPro ©2023 Todos os direitos reservados.
-          </Footer>
+      <Header
+      style={{
+        background: '#001529',
+        alignItems: 'center',
+        display: 'flex',
+        justifyContent: 'space-between',
+        position: 'sticky',  
+        top: 0, 
+        zIndex: 1
+      }}>  
+              <Space style={{alignItems: 'center'}}>
+                <Image width={35} src="https://gw.alipayobjects.com/zos/rmsportal/KDpgvguMpGfqaHPjicRK.svg" />
+                <h2 style={{color: '#fff', alignContent: 'center'}}>Ant Design Pro</h2>
+              </Space>
+              <Space>
+                <Menu style={{
+                backgroundColor: '#001529', 
+                alignItems:'center',
+                height: '3.5em', 
+                color:'#fff'}} 
+                onClick={onClick} mode="horizontal" items={items} />
+              </Space>
+      </Header> 
+      <Layout className="site-layout"> 
+        <MenuLateral />
+          <Layout>
+            <Content>
+                {children}
+            </Content>
+            <Footer style={{ textAlign: 'center' }}>
+              GestorPro ©2023 Todos os direitos reservados.
+            </Footer>
+          </Layout>
         </Layout>
       </Layout>
   );

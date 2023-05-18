@@ -1,14 +1,19 @@
-import React from "react";
-import { MenuProps, Dropdown} from 'antd';
+import React, {useState} from "react";
+import { Layout, MenuProps, Menu } from 'antd';
 import { Link } from 'react-router-dom';
-import { UserOutlined, MenuOutlined, DashboardOutlined, FormOutlined,
-    UnorderedListOutlined, ProfileOutlined, CheckCircleOutlined,
-    ExceptionOutlined, AccountBookOutlined } from '@ant-design/icons';
-import '../MainLayout/style.css';
+import { UserOutlined, UnorderedListOutlined, DashboardOutlined, FormOutlined,
+    ProfileOutlined, CheckCircleOutlined, ExceptionOutlined, AccountBookOutlined, 
+    MenuUnfoldOutlined, MenuFoldOutlined
+} from '@ant-design/icons';
+import '../MainLayout/style.css'
 
-export default function ButtonMenu(){
-    
-    type MenuItem = Required<MenuProps>['items'][number];
+const { Sider } = Layout;
+
+const MenuLateral = () => {
+
+const [collapsed, setCollapsed] = useState(false);
+
+type MenuItem = Required<MenuProps>['items'][number];
 
         function getItem(
             label: React.ReactNode,
@@ -60,11 +65,10 @@ export default function ButtonMenu(){
         ];  
 
         return(
-            
-            <Dropdown className='menu-botao' menu={{items}} trigger={['click']}>
-            <a onClick={(e) => e.preventDefault()}>
-                <MenuOutlined />
-            </a>
-            </Dropdown>  
-        )
-} 
+            <Sider
+            className='menu-lateral' 
+            collapsible collapsed={collapsed} onCollapse={(value) => setCollapsed(value)} theme="light">   
+                <Menu theme="light" mode="inline" items={items}/>
+            </Sider>
+)};
+export default MenuLateral;

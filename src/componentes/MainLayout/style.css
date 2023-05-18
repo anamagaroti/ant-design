@@ -1,10 +1,11 @@
-@media (min-width: 501px){
+
+@media (min-width: 901px){
     .menu-botao{
         display: none;
     }
 }
 
-@media (max-width: 500px){
+@media (max-width: 900px){
     .menu-lateral{
         display: none;
     }
